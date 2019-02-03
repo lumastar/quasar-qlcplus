@@ -4,11 +4,13 @@
 
 # TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
 cd /quasar-qlcplus
+# Note that things cannot be moved from here with mv, as it is not part of the loop file system
+# The quasar-qlcplus directory will not be included in the final image
 
 # TODO: Run raspbian-setup here to change username, password, hostname
 
 # Install new QLC+ system service
-mv ./assets/qlcplus /etc/init.d/qlcplus
+cp ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
 # Install files for QLC+ web kiosk mod
