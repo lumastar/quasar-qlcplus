@@ -14,7 +14,7 @@ IMAGE_7Z=$(basename $IMAGE_LINK)
 sudo apt-get -y update && sudo apt-get -y install p7zip-full
 7z e $IMAGE_7Z
 rm $IMAGE_7Z
-IMAGE_IMG=${IMAGE_ZIP%.7z}.img
+IMAGE_IMG=${IMAGE_7Z%.7z}.img
 echo "FETCH - Successfully fetched $IMAGE_IMG"
 
 echo "INSTALL - Will now install modifications"
