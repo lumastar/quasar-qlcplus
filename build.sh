@@ -11,7 +11,7 @@ echo "FETCH - Will now fetch source image"
 IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/713c4e9fbc9d61d8508f6533d97e062e/qlcplus_raspbian_stretch_20181110.7z
 wget -nv $IMAGE_LINK
 IMAGE_7Z=$(basename $IMAGE_LINK)
-sudo apt-get -y install p7zip-full
+sudo apt-get -y update && sudo apt-get -y install p7zip-full
 7z e $IMAGE_7Z
 rm $IMAGE_7Z
 IMAGE_IMG=${IMAGE_ZIP%.7z}.img
