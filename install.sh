@@ -12,14 +12,14 @@ mv ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
 # Install files for QLC+ web kiosk mod
-mv ./assets/common.css.kiosk /usr/share/qlcplus/web/common.css.kiosk
-mv ./assets/common.css.normal /usr/share/qlcplus/web/common.css.normal
+cp ./assets/common.css.kiosk /usr/share/qlcplus/web/common.css.kiosk
+cp ./assets/common.css.normal /usr/share/qlcplus/web/common.css.normal
 
 # Move other files to data partition
-mv ./assets/web_passwd /data/
-mv ./assets/qlcplus.conf /data/
-mv ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
-mv ./assets/qlcplus_gpio_restarter.sh /data/
+cp ./assets/web_passwd /data/
+cp ./assets/qlcplus.conf /data/
+cp ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
+cp ./assets/qlcplus_gpio_restarter.sh /data/
 
 # TODO: Should other assets from qlcplus-assets also be fetched here?
 
