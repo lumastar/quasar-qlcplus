@@ -8,7 +8,7 @@ cd /quasar-qlcplus
 # TODO: Run raspbian-setup here to change username, password, hostname
 
 # Install new QLC+ system service
-mv ./resources/qlcplus /etc/init.d/qlcplus
+mv ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
 # Install files for QLC+ web kiosk mod
