@@ -2,6 +2,9 @@
 
 # This is the install script to be run in the Raspbian environment
 
+# TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
+cd /quasar-qlcplus
+
 # TODO: Run raspbian-setup here to change username, password, hostname
 
 # Install new QLC+ system service
