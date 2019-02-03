@@ -19,11 +19,11 @@ echo "FETCH - Successfully fetched $IMAGE_IMG"
 
 echo "INSTALL - Will now install modifications"
 docker run --privileged --rm \
-  -e MOUNT=/raspbian-setup \
-  -e SOURCE_IMAGE=/raspbian-setup/${IMAGE_IMG} \
-  -e SCRIPT=/raspbian-setup/install.sh \
+  -e MOUNT=/quasar-qlcplus \
+  -e SOURCE_IMAGE=/quasar-qlcplus/${IMAGE_IMG} \
+  -e SCRIPT=/quasar-qlcplus/install.sh \
   -e ADD_DATA_PART=true \
-  --mount type=bind,source="$(pwd)",destination=/raspbian-setup \
+  --mount type=bind,source="$(pwd)",destination=/quasar-qlcplus \
   edwardotme/raspbian-customiser:v0.2
 
 echo "DEPOLY - Will now package image"
