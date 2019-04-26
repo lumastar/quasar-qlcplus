@@ -2,12 +2,28 @@
 
 # This is the install script to be run in the Raspbian environment
 
+set -e
+
 # TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
 cd /quasar-qlcplus
 # Note that things cannot be moved from here with mv, as it is not part of the loop file system
 # The quasar-qlcplus directory will not be included in the final image
 
-# TODO: Run raspbian-setup here to change username, password, hostname
+# Download and install raspbian-setup
+curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.2/raspbian-setup-v0.0.2.zip -o raspbian-setup.zip
+unzip raspbian-setup.zip
+pushd raspbian-setup
+cp *.sh /usr/local/bin
+# Create and set raspbian-setup config
+touch /data/raspbian-setup.conf
+echo "SILENT_BOOT=disable" >> /data/raspbian-setup.conf
+echo "HOSTNAME=qlcplus-pi" >> /data/raspbian-setup.conf
+echo "UPDATE_USER=pi,lumastar,rotary" >> /data/raspbian-setup.conf
+# Create raspbian-setup.log
+touch /data/raspbian-setup.log
+# Run raspbian-setup.sh
+/usr/local/bin/raspbian-setup.sh /data/raspbian-setup.conf /data/raspbian-setup.log
+popd
 
 # Install new QLC+ system service
 cp ./assets/qlcplus /etc/init.d/qlcplus
