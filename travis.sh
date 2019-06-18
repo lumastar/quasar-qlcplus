@@ -8,7 +8,7 @@ echo "BUILD - Will now pull Docker image"
 docker pull edwardotme/raspbian-customiser:v0.2
 
 echo "FETCH - Will now fetch source image"
-IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/713c4e9fbc9d61d8508f6533d97e062e/qlcplus_raspbian_stretch_20181110.7z
+IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/729b0dc1f5d88bc2e911e306b17b1d70/qlcplus_raspbian_stretch_20190217.7z
 wget -nv $IMAGE_LINK
 IMAGE_7Z=$(basename $IMAGE_LINK)
 sudo apt-get -y update && sudo apt-get -y install p7zip-full
