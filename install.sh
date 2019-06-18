@@ -10,7 +10,7 @@ cd /quasar-qlcplus
 # The quasar-qlcplus directory will not be included in the final image
 
 # Download and install raspbian-setup
-curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.2/raspbian-setup-v0.0.2.zip -o raspbian-setup.zip
+curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.3/raspbian-setup-v0.0.3.zip -o raspbian-setup.zip
 unzip raspbian-setup.zip
 pushd raspbian-setup
 cp *.sh /usr/local/bin
@@ -19,6 +19,7 @@ touch /data/raspbian-setup.conf
 echo "SILENT_BOOT=disable" >> /data/raspbian-setup.conf
 echo "HOSTNAME=qlcplus-pi" >> /data/raspbian-setup.conf
 echo "UPDATE_USER=pi,lumastar,rotary" >> /data/raspbian-setup.conf
+echo "INSTALL_WIREGUARD=true" >> /data/raspbian-setup.conf
 # Create raspbian-setup.log
 touch /data/raspbian-setup.log
 # Run raspbian-setup.sh
