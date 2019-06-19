@@ -27,4 +27,7 @@ docker run --privileged --rm \
   edwardotme/raspbian-customiser:v0.2.1
 
 echo "DEPOLY - Will now package image"
-zip quasar-qlcplus-${TRAVIS_TAG}.zip $IMAGE_IMG
+FINAL_IMAGE_IMG=quasar-qlcplus-${TRAVIS_TAG}.img
+mv $IMAGE_IMG $FINAL_IMAGE_IMG
+FINAL_IMAGE_ZIP=quasar-qlcplus-${TRAVIS_TAG}.zip
+zip $FINAL_IMAGE_ZIP $FINAL_IMAGE_IMG
