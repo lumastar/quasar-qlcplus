@@ -17,7 +17,7 @@ cp *.sh /usr/local/bin
 # Create and set raspbian-setup config
 touch /data/raspbian-setup.conf
 echo "SILENT_BOOT=disable" >> /data/raspbian-setup.conf
-echo "HOSTNAME=qlcplus-pi" >> /data/raspbian-setup.conf
+echo "HOSTNAME=quasar" >> /data/raspbian-setup.conf
 echo "UPDATE_USER=pi,lumastar,rotary" >> /data/raspbian-setup.conf
 echo "INSTALL_WIREGUARD=true" >> /data/raspbian-setup.conf
 # Create raspbian-setup.log
