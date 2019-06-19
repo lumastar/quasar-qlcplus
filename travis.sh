@@ -5,7 +5,7 @@
 set -e
 
 echo "BUILD - Will now pull Docker image"
-docker pull edwardotme/raspbian-customiser:v0.2
+docker pull edwardotme/raspbian-customiser:v0.2.1
 
 echo "FETCH - Will now fetch source image"
 IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/729b0dc1f5d88bc2e911e306b17b1d70/qlcplus_raspbian_stretch_20190217.7z
@@ -24,7 +24,7 @@ docker run --privileged --rm \
   -e SCRIPT=/quasar-qlcplus/install.sh \
   -e ADD_DATA_PART=true \
   --mount type=bind,source="$(pwd)",destination=/quasar-qlcplus \
-  edwardotme/raspbian-customiser:v0.2
+  edwardotme/raspbian-customiser:v0.2.1
 
 echo "DEPOLY - Will now package image"
 zip quasar-qlcplus-${TRAVIS_TAG}.zip $IMAGE_IMG
