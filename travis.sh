@@ -7,6 +7,15 @@ set -o xtrace
 
 # This is the Quasar QLC+ build script to be invoked by Travis CI
 
+echo "TEST - Will now Shellcheck scripts"
+sudo apt-get -y update && sudo apt-get -y shellcheck
+shellcheck travis.sh
+shellcheck install.sh
+shellcheck assets/qlcplus
+shellcheck assets/qlcplus_gpio_restarter.sh
+shellcheck assets/resources.sh
+echo "TEST - Successfully Shellchecked scripts"
+
 echo "BUILD - Will now pull Docker image"
 docker pull edwardotme/raspbian-customiser:v0.2.1
 
