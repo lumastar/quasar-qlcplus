@@ -6,7 +6,7 @@ set -o xtrace
 
 # This script requires wiringPi and uses the 'gpio' command that it provides
 
-if [ -z $1 ] || [ -z $1 ] || [ -z $1 ]; then
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
 	echo "usage: $0 [input pin BCM number] [output pin BCM number] [no kiosk temp file path]"
 	exit 1
 fi
@@ -48,8 +48,8 @@ gpio -g write "$OUTPUT_PIN" 1
 # Note that checking process by ID rather than by name prevents
 # this script from running through a QLC+ restart which can lead
 # to undesirable behaviour
-while ps -p $PID > /dev/null; do
-	if [[ $(gpio -g read $INPUT_PIN) = 0 ]]; then
+while ps -p "$PID" > /dev/null; do
+	if [[ $(gpio -g read "$INPUT_PIN") = 0 ]]; then
 		((COUNT++))
 		if [[ "$COUNT" -ge 12 ]]; then
 			gpio -g write "$OUTPUT_PIN" 0
@@ -107,4 +107,3 @@ while ps -p $PID > /dev/null; do
 done
 
 gpio -g write "$OUTPUT_PIN" 0
-exit 0

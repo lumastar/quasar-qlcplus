@@ -20,13 +20,14 @@ cd /quasar-qlcplus
 curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.3/raspbian-setup-v0.0.3.zip -o raspbian-setup.zip
 unzip raspbian-setup.zip
 pushd raspbian-setup
-cp *.sh /usr/local/bin
+cp ./*.sh /usr/local/bin
 # Create and set raspbian-setup config
-touch /data/raspbian-setup.conf
-echo "SILENT_BOOT=disable" >> /data/raspbian-setup.conf
-echo "HOSTNAME=quasar" >> /data/raspbian-setup.conf
-echo "UPDATE_USER=pi,lumastar,rotary" >> /data/raspbian-setup.conf
-echo "INSTALL_WIREGUARD=true" >> /data/raspbian-setup.conf
+{
+	echo "SILENT_BOOT=disable"
+	echo "HOSTNAME=quasar"
+	echo "UPDATE_USER=pi,lumastar,rotary"
+	echo "INSTALL_WIREGUARD=true"
+} >> /data/raspbian-setup.conf
 # Create raspbian-setup.log
 touch /data/raspbian-setup.log
 # Run raspbian-setup.sh

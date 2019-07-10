@@ -31,7 +31,7 @@ QLCPLUS_OPTS="--nowm"
 
 set_static()
 {
-	IFS="," read -a staticparts <<<"$1"
+	IFS="," read -a -r staticparts <<<"$1"
 	if [ ${#staticparts[@]} != 5 ]; then
 		return
 	fi
@@ -46,14 +46,16 @@ set_static()
 		echo "######### QLC+ parameters. Do not edit #########" >> /etc/dhcpcd.conf
 	fi
 	# TODO: Make this less destructive, currently it will remove any previous config
-	echo "$INTERFACE" >> /etc/dhcpcd.conf
-	echo "$IP" >> /etc/dhcpcd.conf
-	echo "$ROUTERS" >> /etc/dhcpcd.conf
-	echo "$DNS" >> /etc/dhcpcd.conf
+	{
+		echo "$INTERFACE"
+		echo "$IP"
+		echo "$ROUTERS"
+		echo "$DNS"
+	} >> /etc/dhcpcd.conf
 	# Restart the interface for the changes to take effect
 	if [ "${staticparts[4]}" == "true" ]; then
-		ip link set ${staticparts[0]} down
-		ip link set ${staticparts[0]} up
+		ip link set "${staticparts[0]}" down
+		ip link set "${staticparts[0]}" up
 	fi
 }
 
@@ -85,20 +87,19 @@ init()
 
 	# Remove old asses and copy new assets to correct place
 	for ASSET in "${ASSETS[@]}"; do
-		ASSET_FOLDER=$(echo "${ASSET,,}")
-		if [ -e "/root/.qlcplus/$ASSET_FOLDER" ]; then
-			rm -r "/root/.qlcplus/$ASSET_FOLDER"
+		if [ -e "/root/.qlcplus/$ASSET" ]; then
+			rm -r "/root/.qlcplus/$ASSET"
 		fi
-		mkdir "/root/.qlcplus/$ASSET_FOLDER"
-		cp -a "$ASSETS_PATH/$ASSET/." "/root/.qlcplus/$ASSET_FOLDER/"
+		mkdir "/root/.qlcplus/$ASSET"
+		cp -a "$ASSETS_PATH/$ASSET/." "/root/.qlcplus/$ASSET/"
 	done
 
 	# Start the GPIO input and output plugin lines with spaces for indentation
 	GPIO_INPUT_PLUGIN_LINE="    <Input Plugin=\"GPIO\" Line=\"0\">\\n     <PluginParameters"
 	GPIO_OUTPUT_PLUGIN_LINE="    <Output Plugin=\"GPIO\" Line=\"0\">\\n     <PluginParameters"
 
-	while read line; do
-		IFS="=" read -a lineparts <<<"$line"
+	while read -r line; do
+		IFS="=" read -a -r lineparts <<<"$line"
 		case "${lineparts[0]}" in
 			OPERATE)
 				if [ "${lineparts[1]}" == "true" ]; then
@@ -164,7 +165,7 @@ init()
 				STATIC=true
 				;;
 			GPIO_RESTART)
-				IFS="," read -a gpio_restart_parts <<<"${lineparts[1]}"
+				IFS="," read -a -r gpio_restart_parts <<<"${lineparts[1]}"
 				exec nohup "$ASSETS_PATH/qlcplus_gpio_restarter.sh" "${gpio_restart_parts[0]}" "${gpio_restart_parts[1]}" "$ASSETS_PATH/qlcplus.no-kiosk" >/dev/null 2>&1 &
 				;;
 			esac
@@ -216,10 +217,10 @@ init()
 
 	fi
 
-	# if NTP hasn't done its job already, set the date to modern age...
-	CURRDATE=`date +%Y`
-	if [ "$CURRDATE" -lt "2017" ]; then
-		date +%Y%m%d -s "20171130"
+	# If NTP hasn't done its job already, set the date to modern age...
+	CURRDATE=$(date +%Y)
+	if [ "$CURRDATE" -lt "2019" ]; then
+		date +%Y%m%d -s "20190101"
 	fi
 
 }
@@ -228,7 +229,7 @@ case "$1" in
 	start)
 		init
 		log_daemon_msg "Starting $DESC" "$NAME"
-		start-stop-daemon --start --background --oknodo --quiet -m --pidfile /var/run/qlcplus.pid --chuid root --exec $BINARY -- $QLCPLUS_OPTS >/dev/null
+		start-stop-daemon --start --background --oknodo --quiet -m --pidfile /var/run/qlcplus.pid --chuid root --exec $BINARY -- "$QLCPLUS_OPTS" >/dev/null
 		log_end_msg "$?"
 		;;
 	stop)
