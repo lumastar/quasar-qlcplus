@@ -4,6 +4,10 @@
 
 set -e
 
+# Install wiringpi to get the gpio utility
+apt-get update
+apt-get install -y wiringpi
+
 # TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
 cd /quasar-qlcplus
 # Note that things cannot be moved from here with mv, as it is not part of the loop file system
