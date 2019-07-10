@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# This is the build script to be invoked by Travis CI
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o xtrace
 
-set -e
+# This is the Quasar QLC+ build script to be invoked by Travis CI
 
 echo "BUILD - Will now pull Docker image"
 docker pull edwardotme/raspbian-customiser:v0.2.1

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ### BEGIN INIT INFO
 # Provides:		qlcplus
@@ -9,6 +9,10 @@
 # Short-Description:	Q Light Controller Plus
 # Description:		Q Light Controller Plus
 ### END INIT INFO
+
+set -o errexit
+set -o nounset
+set -o pipefail
 
 NAME=qlcplus
 DESC="Q Light Controller Plus"

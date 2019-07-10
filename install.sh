@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# This is the install script to be run in the Raspbian environment
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o xtrace
 
-set -e
+# This is the Quasar QLC+ install script to be run in the Raspbian environment
 
 # Install wiringpi to get the gpio utility
 apt-get update

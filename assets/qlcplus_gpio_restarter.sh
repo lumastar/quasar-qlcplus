@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o xtrace
 
 # This script requires wiringPi and uses the 'gpio' command that it provides
 
@@ -12,6 +16,8 @@ fi
 INPUT_PIN=$1
 OUTPUT_PIN=$2
 NO_KIOSK_PATH=$3
+
+set -o nounset
 
 echo "input pin: $INPUT_PIN, output pin: $OUTPUT_PIN, no kiosk path: $NO_KIOSK_PATH"
 
