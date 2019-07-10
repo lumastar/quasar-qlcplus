@@ -43,6 +43,7 @@ cp ./assets/web_passwd /data/
 cp ./assets/qlcplus.conf /data/
 cp ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
 cp ./assets/qlcplus_gpio_restarter.sh /data/
+cp ./assets/resources.sh /data/
 
 # Copy the quasar-qlcplus.txt info file
 cp ./quasar-qlcplus.txt /data/
