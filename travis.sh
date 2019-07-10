@@ -7,8 +7,11 @@ set -o xtrace
 
 # This is the Quasar QLC+ build script to be invoked by Travis CI
 
+echo "FETCH - Will now install requirements"
+sudo apt-get update
+sudo apt-get install -y shellcheck p7zip-full
+
 echo "TEST - Will now Shellcheck scripts"
-sudo apt-get -y update && sudo apt-get -y shellcheck
 shellcheck travis.sh
 shellcheck install.sh
 shellcheck assets/qlcplus
@@ -23,7 +26,6 @@ echo "FETCH - Will now fetch source image"
 IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/729b0dc1f5d88bc2e911e306b17b1d70/qlcplus_raspbian_stretch_20190217.7z
 wget -nv $IMAGE_LINK
 IMAGE_7Z=$(basename $IMAGE_LINK)
-sudo apt-get -y update && sudo apt-get -y install p7zip-full
 7z e $IMAGE_7Z
 rm $IMAGE_7Z
 IMAGE_IMG=${IMAGE_7Z%.7z}.img
