@@ -11,7 +11,7 @@ set -o xtrace
 apt-get update
 apt-get install -y wiringpi
 
-# TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
+# Change to directory mounted by raspbian-customiser
 cd /quasar-qlcplus
 # Note that things cannot be moved from here with mv, as it is not part of the loop file system
 # The quasar-qlcplus directory will not be included in the final image
