@@ -17,6 +17,15 @@ rm $IMAGE_7Z
 IMAGE_IMG=${IMAGE_7Z%.7z}.img
 echo "FETCH - Successfully fetched $IMAGE_IMG"
 
+# Create quasar-qlcplus.txt info file
+echo "Quasar QLC+" > quasar-qlcplus.txt
+echo "Scripts and extras to modify QLC+ Raspbian images to run on a Quasar Lighting Control Box." >> quasar-qlcplus.txt
+echo "https://github.com/lumastar/quasar-qlcplus" >> quasar-qlcplus.txt
+echo "Based on ${IMAGE_IMG}" >> quasar-qlcplus.txt
+echo "Version ${TRAVIS_TAG}" >> quasar-qlcplus.txt
+DATE=$(date '+%Y.%m.%d-%H.%M.%S')
+echo "Built ${DATE}" >> quasar-qlcplus.txt
+
 echo "INSTALL - Will now install modifications"
 docker run --privileged --rm \
   -e MOUNT=/quasar-qlcplus \
