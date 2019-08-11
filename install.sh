@@ -17,7 +17,7 @@ apt-get update
 apt-get install -y wiringpi
 
 # Enter directory of quasar-qlcplus repo
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd )"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/" >/dev/null 2>&1 && pwd )"
 pushd "$REPO_ROOT"
 
 # Note that when using the raspian-customiser tool used in the Travis CI build
@@ -47,13 +47,16 @@ popd
 cp ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
-# Add settings for BitWiard DMX board
+# Add settings for BitWiard DMX board to config.txt
 # https://bitwizard.nl/wiki/Dmx_interface_for_raspberry_pi
-echo -e "\n# For BitWizard DMX interface" >> /boot/config.txt
-# Disable Bluetooth in config.txt to support BitWiard DMX board
-echo "dtoverlay=pi3-disable-bt" >> /boot/config.txt
-# Change UART clock
-echo "init_uart_clock=16000000" >> /boot/config.txt
+{
+    echo -e "\n# For BitWizard DMX interface"
+    # Disable Bluetooth in config.txt to support BitWiard DMX board
+    echo "dtoverlay=pi3-disable-bt"
+    # Change UART clock
+    echo "init_uart_clock=16000000" >> /boot/config.txt
+} >> /boot/config.txt
+
 # Disable UART serial interface
 systemctl disable serial-getty@ttyAMA0.service
 # Remove UART serial interface from cmdline.txt
