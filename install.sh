@@ -1,10 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# This is the install script to be run in the Raspbian environment
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o xtrace
 
-set -e
+# This is the Quasar QLC+ install script to be run in the Raspbian environment
 
-# TODO: Open an issue to get changing to the mount directory integrated into raspbian-customiser
+# Install wiringpi to get the gpio utility
+apt-get update
+apt-get install -y wiringpi
+
+# Change to directory mounted by raspbian-customiser
 cd /quasar-qlcplus
 # Note that things cannot be moved from here with mv, as it is not part of the loop file system
 # The quasar-qlcplus directory will not be included in the final image
@@ -13,13 +20,14 @@ cd /quasar-qlcplus
 curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.3/raspbian-setup-v0.0.3.zip -o raspbian-setup.zip
 unzip raspbian-setup.zip
 pushd raspbian-setup
-cp *.sh /usr/local/bin
+cp ./*.sh /usr/local/bin
 # Create and set raspbian-setup config
-touch /data/raspbian-setup.conf
-echo "SILENT_BOOT=disable" >> /data/raspbian-setup.conf
-echo "HOSTNAME=quasar" >> /data/raspbian-setup.conf
-echo "UPDATE_USER=pi,lumastar,rotary" >> /data/raspbian-setup.conf
-echo "INSTALL_WIREGUARD=true" >> /data/raspbian-setup.conf
+{
+	echo "SILENT_BOOT=disable"
+	echo "HOSTNAME=quasar"
+	echo "UPDATE_USER=pi,lumastar,rotary"
+	echo "INSTALL_WIREGUARD=true"
+} >> /data/raspbian-setup.conf
 # Create raspbian-setup.log
 touch /data/raspbian-setup.log
 # Run raspbian-setup.sh
@@ -39,6 +47,10 @@ cp ./assets/web_passwd /data/
 cp ./assets/qlcplus.conf /data/
 cp ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
 cp ./assets/qlcplus_gpio_restarter.sh /data/
+cp ./assets/resources.sh /data/
+
+# Copy the quasar-qlcplus.txt info file
+cp ./quasar-qlcplus.txt /data/
 
 # TODO: Should other assets from qlcplus-assets also be fetched here?
 
