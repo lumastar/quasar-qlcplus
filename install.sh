@@ -40,7 +40,7 @@ cp ./*.sh /usr/local/bin
 # Create raspbian-setup.log
 touch /data/raspbian-setup.log
 # Run raspbian-setup.sh
-/usr/local/bin/raspbian-setup.sh /data/raspbian-setup.conf /data/raspbian-setup.log
+/usr/local/bin/raspbian-setup.sh /data/raspbian-setup.conf
 popd
 
 # Install new QLC+ system service
