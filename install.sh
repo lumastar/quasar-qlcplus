@@ -45,6 +45,10 @@ echo -e "\n# For BitWizard DMX interface" >> /boot/config.txt
 echo "dtoverlay=pi3-disable-bt" >> /boot/config.txt
 # Change UART clock
 echo "init_uart_clock=16000000" >> /boot/config.txt
+# Disable UART serial interface
+systemctl disable serial-getty@ttyAMA0.service
+# Remove UART serial interface from cmdline.txt
+sed -ie "s|console=ttyAMA0,115200 ||g" /boot/cmdline.txt
 
 # Install files for QLC+ web kiosk mod
 cp ./assets/common.css.kiosk /usr/share/qlcplus/web/common.css.kiosk
