@@ -7,6 +7,11 @@ set -o xtrace
 
 # This is the Quasar QLC+ install script to be run in the Raspbian environment
 
+if [[ $EUID -ne 0 ]]; then
+   echo "this script requires root privileges"
+   exit 1
+fi
+
 # Install wiringpi to get the gpio utility
 apt-get update
 apt-get install -y wiringpi
