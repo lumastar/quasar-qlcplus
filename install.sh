@@ -16,10 +16,14 @@ fi
 apt-get update
 apt-get install -y wiringpi
 
-# Change to directory mounted by raspbian-customiser
-cd /quasar-qlcplus
-# Note that things cannot be moved from here with mv, as it is not part of the loop file system
-# The quasar-qlcplus directory will not be included in the final image
+# Enter directory of quasar-qlcplus repo
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd )"
+pushd "$REPO_ROOT"
+
+# Note that when using the raspian-customiser tool used in the Travis CI build
+# files cannot be moved from here with mv, as it is not part of the loop file
+# system. Files should be copied with cp instead. The quasar-qlcplus directory
+# will not be included in the final image with.
 
 # Download and install raspbian-setup
 curl -L https://github.com/lumastar/raspbian-setup/releases/download/v0.0.3/raspbian-setup-v0.0.3.zip -o raspbian-setup.zip
@@ -77,4 +81,4 @@ for asset in "${ASSETS[@]}"; do
 	mkdir "/data/$asset"
 done
 
-exit 0
+popd
