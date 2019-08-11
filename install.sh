@@ -38,6 +38,14 @@ popd
 cp ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
+# Add settings for BitWiard DMX board
+# https://bitwizard.nl/wiki/Dmx_interface_for_raspberry_pi
+echo -e "\n# For BitWizard DMX interface" >> /boot/config.txt
+# Disable Bluetooth in config.txt to support BitWiard DMX board
+echo "dtoverlay=pi3-disable-bt" >> /boot/config.txt
+# Change UART clock
+echo "init_uart_clock=16000000" >> /boot/config.txt
+
 # Install files for QLC+ web kiosk mod
 cp ./assets/common.css.kiosk /usr/share/qlcplus/web/common.css.kiosk
 cp ./assets/common.css.normal /usr/share/qlcplus/web/common.css.normal
