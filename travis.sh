@@ -21,7 +21,7 @@ shellcheck assets/resources.sh
 echo "TEST - Successfully Shellchecked scripts"
 
 echo "BUILD - Will now pull Docker image"
-docker pull edwardotme/raspbian-customiser:v0.2.1
+docker pull quay.io/lumastar/raspbian-customiser:v0.2.2
 
 echo "FETCH - Will now fetch source image"
 IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/729b0dc1f5d88bc2e911e306b17b1d70/qlcplus_raspbian_stretch_20190217.7z
@@ -50,7 +50,7 @@ docker run --privileged --rm \
   -e SCRIPT="/quasar-qlcplus/install.sh" \
   -e ADD_DATA_PART="true" \
   --mount type=bind,source="$(pwd)",destination=/quasar-qlcplus \
-  edwardotme/raspbian-customiser:v0.2.1
+  quay.io/lumastar/raspbian-customiser:v0.2.2
 
 echo "DEPOLY - Will now package image"
 FINAL_IMAGE_IMG=quasar-qlcplus-${TRAVIS_BRANCH}.img
