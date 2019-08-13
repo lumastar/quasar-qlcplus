@@ -46,6 +46,9 @@ popd
 # Install new QLC+ system service
 cp ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
+# Install QLC+ scripts
+cp ./assets/qlcplus-helper.sh /usr/local/bin/
+cp ./assets/qlcplus-utility-button.sh /usr/local/bin/
 
 # Add settings for BitWiard DMX board to config.txt
 # https://bitwizard.nl/wiki/Dmx_interface_for_raspberry_pi
@@ -70,16 +73,12 @@ cp ./assets/common.css.normal /usr/share/qlcplus/web/common.css.normal
 cp ./assets/web_passwd /data/
 cp ./assets/qlcplus.conf /data/
 cp ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
-cp ./assets/qlcplus_gpio_restarter.sh /data/
-cp ./assets/resources.sh /data/
 
 # Copy the quasar-qlcplus.txt info file
 cp ./quasar-qlcplus.txt /data/
 
-# TODO: Should other assets from qlcplus-assets also be fetched here?
-
-# Make asset dirs in data partition
-ASSETS=( "Fixtures" "InputProfiles" "MidiTemplates" "ModifiersTemplates" "RGBScripts" )
+# Make asset directories in data partition
+ASSETS=( "fixtures" "inputprofiles" "miditemplates" "modifierstemplates" "rgbscripts" )
 for asset in "${ASSETS[@]}"; do
 	mkdir "/data/$asset"
 done

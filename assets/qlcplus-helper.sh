@@ -15,7 +15,7 @@ set_static()
     # If no previous STATIC interface has been set then remove any existing QLC+ config
     if [ "$2" == "false" ]; then
         sed -i '/######### QLC+ parameters. Do not edit #########/Q' /etc/dhcpcd.conf
-        # Put the QLC+ line back for web config compatability
+        # Put the QLC+ line back for web config compatibility
         echo "######### QLC+ parameters. Do not edit #########" >> /etc/dhcpcd.conf
     fi
     # TODO: Make this less destructive, currently it will remove any previous config
@@ -33,26 +33,32 @@ set_static()
 }
 
 CONFIG_PATH=/data/qlcplus.conf
-ASSETS_PATH=/data/
-ASSETS=( "Fixtures" "InputProfiles" "MidiTemplates" "ModifiersTemplates" "RGBScripts" )
 
-AUTOSTART=false
-GPIO=false
-UART=false
-DMX_USB=false
-STATIC=false
+# Manage asset files
+ASSETS_PATH=/data/
+ASSETS=( "fixtures" "inputprofiles" "miditemplates" "modifierstemplates" "rgbscripts" "web_passwd" )
+# Remove old assets from /root/.qlcplus and copy in new ones
+for ASSET in "${ASSETS[@]}"; do
+    if [ -e "/root/.qlcplus/$ASSET" ]; then
+        rm -rf "/root/.qlcplus/$ASSET"
+    fi
+    cp -rf "$ASSETS_PATH/$ASSET" "/root/.qlcplus/$ASSET"
+done
+
+# If the qlcplus.no-kiosk file exists then don't start QLC+ in kiosk mode
+# This overrides setting KIOSK=true in the qlcplus.conf file
+# It is used by the qlcplus-utility-button script to take QLC+ out of kiosk
+# mode for maintenance by holding down the button
+NO_KIOSK=false
+if [ -e "$ASSETS_PATH/qlcplus.no-kiosk" ]; then
+    rm -rf "$ASSETS_PATH/qlcplus.no-kiosk"
+    NO_KIOSK=true
+fi
 
 # Reset changes made for web kiosk mod
 cp /usr/share/qlcplus/web/common.css.normal /usr/share/qlcplus/web/common.css
 
-# Option to override kiosk mode set from config file
-NO_KIOSK=false
-if [ -e "$ASSETS_PATH/qlcplus.no-kiosk" ]; then
-    rm "$ASSETS_PATH/qlcplus.no-kiosk"
-    NO_KIOSK=true
-fi
-
-# IPtables rules to redirect standard HTTP port 80 trafic to QLC+ port 9999
+# IPtables rules to redirect standard HTTP port 80 traffic to QLC+ port 9999
 iptables -A INPUT -i wlan0 -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -i wlan0 -p tcp --dport 9999 -j ACCEPT
 iptables -A PREROUTING -t nat -i wlan0 -p tcp --dport 80 -j REDIRECT --to-port 9999
@@ -60,21 +66,21 @@ iptables -A INPUT -i eth0 -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --dport 9999 -j ACCEPT
 iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 9999
 
-# Remove old asses and copy new assets to correct place
-for ASSET in "${ASSETS[@]}"; do
-    if [ -e "/root/.qlcplus/$ASSET" ]; then
-        rm -r "/root/.qlcplus/$ASSET"
-    fi
-    mkdir "/root/.qlcplus/$ASSET"
-    cp -a "$ASSETS_PATH/$ASSET/." "/root/.qlcplus/$ASSET/"
-done
+# Keep track of what has been enabled in the qlcplus.conf file
+AUTOSTART=false
+GPIO=false
+UART=false
+DMX_USB=false
+STATIC=false
 
-# Start the GPIO input and output plugin lines with spaces for indentation
+# Accumulate arguments to pass to QLC+
+QLCPLUS_OPTS="--nowm"
+
+# Start building GPIO input and output plugin lines with spaces for indentation
 GPIO_INPUT_PLUGIN_LINE="    <Input Plugin=\"GPIO\" Line=\"0\">\\n     <PluginParameters"
 GPIO_OUTPUT_PLUGIN_LINE="    <Output Plugin=\"GPIO\" Line=\"0\">\\n     <PluginParameters"
 
-QLCPLUS_OPTS="--nowm"
-
+# Read through lines in the qlcplus.conf file
 while read -r line; do
     IFS="=" read -a lineparts <<<"$line"
     case "${lineparts[0]}" in
@@ -140,7 +146,13 @@ while read -r line; do
             ;;
         GPIO_RESTART)
             IFS="," read -r -a gpio_restart_parts <<<"${lineparts[1]}"
-            exec nohup "$ASSETS_PATH/qlcplus_gpio_restarter.sh" "${gpio_restart_parts[0]}" "${gpio_restart_parts[1]}" "$ASSETS_PATH/qlcplus.no-kiosk" >/dev/null 2>&1 &
+            # Run the qlcplus-utility-button script
+            exec nohup \
+            /usr/local/bin/qlcplus-utility-button.sh \
+            "${gpio_restart_parts[0]}" \
+            "${gpio_restart_parts[1]}" \
+            "$ASSETS_PATH/qlcplus.no-kiosk" \
+            >/dev/null 2>&1 &
             ;;
         esac
 done < "$CONFIG_PATH"
