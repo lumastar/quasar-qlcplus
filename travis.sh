@@ -14,7 +14,7 @@ sudo apt-get install -y shellcheck p7zip-full
 echo "TEST - Will now Shellcheck scripts"
 shellcheck travis.sh
 shellcheck install.sh
-# We don't want to follow all sourced scripts here to can ignore error SC1091 
+# We don't want to follow all sourced scripts here to can ignore error SC1091
 shellcheck -e SC1091 assets/qlcplus
 shellcheck assets/qlcplus_gpio_restarter.sh
 shellcheck assets/resources.sh
@@ -39,7 +39,7 @@ DATE=$(date '+%Y.%m.%d-%H.%M.%S')
 	echo "Scripts and extras to modify QLC+ Raspbian images to run on a Quasar Lighting Control Box."
 	echo "https://github.com/lumastar/quasar-qlcplus"
 	echo "Based on ${IMAGE_IMG}"
-	echo "Version ${TRAVIS_TAG}"
+	echo "Version ${TRAVIS_BRANCH}"
 	echo "Built ${DATE}"
 } >> quasar-qlcplus.txt
 
@@ -53,7 +53,7 @@ docker run --privileged --rm \
   edwardotme/raspbian-customiser:v0.2.1
 
 echo "DEPOLY - Will now package image"
-FINAL_IMAGE_IMG=quasar-qlcplus-${TRAVIS_TAG}.img
+FINAL_IMAGE_IMG=quasar-qlcplus-${TRAVIS_BRANCH}.img
 mv "$IMAGE_IMG" "$FINAL_IMAGE_IMG"
-FINAL_IMAGE_ZIP=quasar-qlcplus-${TRAVIS_TAG}.zip
+FINAL_IMAGE_ZIP=quasar-qlcplus-${TRAVIS_BRANCH}.zip
 zip "$FINAL_IMAGE_ZIP" "$FINAL_IMAGE_IMG"
