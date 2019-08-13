@@ -21,7 +21,7 @@ test -x $BINARY || exit 0
 QLCPLUS_OPTS=""
 
 # if NTP hasn't done its job already, set the date to modern age...
-CURRDATE=`date +%Y`
+CURRDATE=$(date +%Y)
 if [ "$CURRDATE" -lt "2019" ]; then
 date +%Y%m%d -s "20190813"
 fi
