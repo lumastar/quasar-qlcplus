@@ -82,7 +82,7 @@ GPIO_OUTPUT_PLUGIN_LINE="    <Output Plugin=\"GPIO\" Line=\"0\">\\n     <PluginP
 
 # Read through lines in the qlcplus.conf file
 while read -r line; do
-    IFS="=" read -a lineparts <<<"$line"
+    IFS="=" read -r -a lineparts <<<"$line"
     case "${lineparts[0]}" in
         OPERATE)
             if [ "${lineparts[1]}" == "true" ]; then
