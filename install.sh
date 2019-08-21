@@ -47,6 +47,9 @@ popd
 cp ./assets/qlcplus /etc/init.d/qlcplus
 systemctl daemon-reload
 
+# QLC+ needs there to be a display available or it will crash on launch
+sed -ie "s|#hdmi_force_hotplug=1|hdmi_force_hotplug=1|g" /boot/config.txt
+
 # Add settings for BitWiard DMX board to config.txt
 # https://bitwizard.nl/wiki/Dmx_interface_for_raspberry_pi
 {
