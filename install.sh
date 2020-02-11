@@ -14,7 +14,7 @@ fi
 
 # Install wiringpi to get the gpio utility
 apt-get update
-apt-get install -y wiringpi
+#apt-get install -y wiringpi
 
 # Enter directory of quasar-qlcplus repo
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/" >/dev/null 2>&1 && pwd )"
