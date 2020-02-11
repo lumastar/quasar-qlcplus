@@ -146,6 +146,8 @@ while read -r line; do
             ;;
         GPIO_RESTART)
             IFS="," read -r -a gpio_restart_parts <<<"${lineparts[1]}"
+            # Kill currently running instances of the script
+            pkill -f /usr/local/bin/qlcplus-utility-button.sh
             # Run the qlcplus-utility-button script
             exec nohup \
             /usr/local/bin/qlcplus-utility-button.sh \
