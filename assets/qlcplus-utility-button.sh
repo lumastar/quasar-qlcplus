@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o pipefail
-set -o xtrace
-
 # This script requires wiringPi and uses the 'gpio' command that it provides
 
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
@@ -11,13 +7,11 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
 	exit 1
 fi
 
-# Get the BCM GPIO pin number and location to create temportary QLC+ no kiosk
+# Get the BCM GPIO pin number and location to create temporary QLC+ no kiosk
 # indicator file
 INPUT_PIN=$1
 OUTPUT_PIN=$2
 NO_KIOSK_PATH=$3
-
-set -o nounset
 
 echo "input pin: $INPUT_PIN, output pin: $OUTPUT_PIN, no kiosk path: $NO_KIOSK_PATH"
 

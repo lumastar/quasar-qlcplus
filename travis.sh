@@ -16,8 +16,8 @@ shellcheck travis.sh
 shellcheck install.sh
 # We don't want to follow all sourced scripts here to can ignore error SC1091
 shellcheck -e SC1091 assets/qlcplus
-shellcheck assets/qlcplus_gpio_restarter.sh
-shellcheck assets/resources.sh
+shellcheck assets/qlcplus-helper.sh
+shellcheck assets/qlcplus-utility-button.sh
 echo "TEST - Successfully Shellchecked scripts"
 
 echo "BUILD - Will now pull Docker image"
