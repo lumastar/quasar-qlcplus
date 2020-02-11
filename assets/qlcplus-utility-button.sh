@@ -31,9 +31,12 @@ gpio -g mode "$OUTPUT_PIN" out
 # The number of seconds for which the pin has been read as '1'
 COUNT=0
 
-# Sleep for 2 seconds so QLC+ has time to start, then get process ID to watch
-sleep 2
+# Get the ID of the QLC+ process, polling every second while waiting for it to start
 PID=$(pidof qlcplus)
+while [ "$PID" == "" ]; do
+	sleep 1
+	PID=$(pidof qlcplus)
+done
 
 # Write 1 to illuminate LED
 gpio -g write "$OUTPUT_PIN" 1
