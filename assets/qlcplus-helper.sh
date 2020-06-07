@@ -57,6 +57,8 @@ fi
 
 # Reset changes made for web kiosk mod
 cp /usr/share/qlcplus/web/common.css.normal /usr/share/qlcplus/web/common.css
+# Reset web dark mode
+sed -ie "s|body { margin: 0px; background: black; }|body { margin: 0px; }|g" /usr/share/qlcplus/web/virtualconsole.css
 
 # IPtables rules to redirect standard HTTP port 80 traffic to QLC+ port 9999
 iptables -A INPUT -i wlan0 -p tcp --dport 80 -j ACCEPT
@@ -99,6 +101,11 @@ while read -r line; do
         WEB)
             if [ "${lineparts[1]}" == "true" ]; then
                 QLCPLUS_OPTS="$QLCPLUS_OPTS --web --web-auth"
+            fi
+            ;;
+        WEB_DARK)
+            if [ "${lineparts[1]}" == "true" ]; then
+                sed -ie "s|body { margin: 0px; }|body { margin: 0px; background: black; }|g" /usr/share/qlcplus/web/virtualconsole.css
             fi
             ;;
         AUTOSTART)
