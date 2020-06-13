@@ -14,7 +14,7 @@ fi
 
 # Install wiringpi to get the gpio utility
 apt-get update
-apt-get install -y wiringpi
+#apt-get install -y wiringpi
 
 # Enter directory of quasar-qlcplus repo
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/" >/dev/null 2>&1 && pwd )"
@@ -75,7 +75,7 @@ cp ./assets/common.css.normal /usr/share/qlcplus/web/common.css.normal
 # Move other files to data partition
 cp ./assets/web_passwd /data/
 cp ./assets/qlcplus.conf /data/
-cp ./assets/QLC+_RaspberryPi_Stretch_Guide_V1.pdf /data/
+cp ./assets/QLC+_RaspberryPi_Buster_Guide_V1.1.pdf /data/
 
 # Copy the quasar-qlcplus.txt info file
 cp ./quasar-qlcplus.txt /data/

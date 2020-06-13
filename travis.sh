@@ -24,7 +24,7 @@ echo "BUILD - Will now pull Docker image"
 docker pull quay.io/lumastar/raspbian-customiser:v0.2.2
 
 echo "FETCH - Will now fetch source image"
-IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/729b0dc1f5d88bc2e911e306b17b1d70/qlcplus_raspbian_stretch_20190217.7z
+IMAGE_LINK=https://www.qlcplus.org/downloads/raspberry/737ad44f2d1b539a989ba52e6a9e795f/qlcplus_raspbian_buster_20190825.7z
 wget -nv $IMAGE_LINK
 IMAGE_7Z=$(basename $IMAGE_LINK)
 7z e "$IMAGE_7Z"
